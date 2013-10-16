@@ -29,3 +29,19 @@ describe( "from", function()
         expect( e.current() ).toBe( null );
     });
 });
+
+describe( "times", function()
+{
+    it( "should create an enumerable with an item for each index", function()
+    {
+        expect( times( 3 ).array() ).toEqual([ 0,1,2 ]);
+    });
+});
+
+describe( "range", function()
+{
+    it( "should create an enumerable with an item for each index in the range", function()
+    {
+        expect( range( 2, 4 ).array() ).toEqual([ 2,3,4 ]);
+    });
+});

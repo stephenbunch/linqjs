@@ -63,6 +63,32 @@ linq.from = window.from = function( items )
     });
 };
 
+/**
+ * @description Creates a new enumerable with an item for each index.
+ * @param {number} times The length of the enumeration.
+ * @returns {Enumerable}
+ */
+linq.times = window.times = function( times )
+{
+    var i = 0, items = [];
+    for ( ; i < times; i++ )
+        items.push( i );
+    return linq.from( items );
+};
+
+/**
+ * @description Creates a new enumerable with an item for each index in the range.
+ * @param {number} start The first index.
+ * @param {number} end The last index.
+ */
+linq.range = window.range = function( start, end )
+{
+    var items = [];
+    for ( ; start <= end; start++ )
+        items.push( start );
+    return linq.from( items );
+};
+
 // Tests whether a function signature is valid. Also creates a back reference
 // of just the parameter list (no parentheses).
 var sig_csharp = /^\(? *([a-zA-Z_$]+[a-zA-Z_$0-9]* *(?:, *[a-zA-Z_$]+[a-zA-Z_$0-9]* *)*)?\)?$/;
