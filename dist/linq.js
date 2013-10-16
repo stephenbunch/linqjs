@@ -421,6 +421,22 @@ linq.extend(
             i++;
         }
         return ret;
+    },
+
+    /**
+     * @description Gets whether the enumerable contains an item.
+     * @param {mixed} item
+     * @returns {boolean}
+     */
+    contains: function( item )
+    {
+        var e = this.enumerator();
+        while ( e.next() )
+        {
+            if ( e.current() === item )
+                return true;
+        }
+        return false;
     }
 });
 

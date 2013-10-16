@@ -93,3 +93,13 @@ describe( "enumerable.hash", function()
         expect( from( data ).hash( null, "|x| x.age" )[0] ).toBe( 23 );
     });
 });
+
+describe( "enumerable.contains", function()
+{
+    it( "should return true/false if the enumerable contains the item", function()
+    {
+        var e = from([ 1,2,3 ]);
+        expect( e.contains( 2 ) ).toBe( true );
+        expect( e.contains( 5 ) ).toBe( false );
+    });
+});
