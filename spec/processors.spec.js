@@ -103,3 +103,12 @@ describe( "enumerable.contains", function()
         expect( e.contains( 5 ) ).toBe( false );
     });
 });
+
+describe( "enumerable.any", function()
+{
+    it( "should return true/false if the enumerable contains items", function()
+    {
+        expect( from([ 1 ]).any() ).toBe( true );
+        expect( from([]).any() ).toBe( false );
+    });
+});

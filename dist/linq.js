@@ -437,6 +437,15 @@ linq.extend(
                 return true;
         }
         return false;
+    },
+
+    /**
+     * @description Gets whether the enumerable contains any items.
+     * @returns {boolean}
+     */
+    any: function()
+    {
+        return this.first() !== null;
     }
 });
 
