@@ -27,7 +27,7 @@ var from = window.from = linq.from = function( items )
         var index = -1, length = items.length;
         this.current = function() {
             return index < 0 || index >= length ? null : items[ index ];
-        }
+        };
         this.next = function() {
             return ++index < length;
         };
