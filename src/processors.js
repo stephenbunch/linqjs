@@ -2,27 +2,19 @@ linq.extend(
 {
     each: function( callback )
     {
-        var e = this.enumerator(),
-            i = 0,
-            current = e.next();
-        while ( current !== null )
+        var e = this.enumerator(), i = 0;
+        while ( e.next() )
         {
-            if ( callback.call( this, current, i++ ) === false )
+            if ( callback.call( this, e.current(), i++ ) === false )
                 break;
-            current = e.next();
         }
     },
 
     array: function()
     {
-        var ret = [],
-            e = this.enumerator(),
-            current = e.next();
-        while ( current !== null )
-        {
-            ret.push( current );
-            current = e.next();
-        }
+        var ret = [], e = this.enumerator();
+        while ( e.next() )
+            ret.push( e.current() );
         return ret;
     }
 });

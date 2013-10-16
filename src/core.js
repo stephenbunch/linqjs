@@ -25,11 +25,11 @@ var from = window.from = linq.from = function( items )
     return new Enumerable( function()
     {
         var index = -1, length = items.length;
-        this.reset = function() {
-            index = -1;
-        };
+        this.current = function() {
+            return index < 0 || index >= length ? null : items[ index ];
+        }
         this.next = function() {
-            return ++index < length ? items[ index ] : null;
+            return ++index < length;
         };
     });
 };

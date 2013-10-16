@@ -34,11 +34,11 @@ var from = window.from = linq.from = function( items )
     return new Enumerable( function()
     {
         var index = -1, length = items.length;
-        this.reset = function() {
-            index = -1;
-        };
+        this.current = function() {
+            return index < 0 || index >= length ? null : items[ index ];
+        }
         this.next = function() {
-            return ++index < length ? items[ index ] : null;
+            return ++index < length;
         };
     });
 };
@@ -47,20 +47,18 @@ linq.extend(
 {
     select: function( selector )
     {
-        var self = this,
-            e = self.enumerator();
+        var self = this, e = self.enumerator();
         return linq.enumerable( function()
         {
             var current = null;
+            this.current = function() {
+                return current;
+            };
             this.next = function()
             {
-                current = e.next();
-                if ( current === null )
-                    return null;
-                return selector.call( self, current );
-            };
-            this.reset = function() {
-                e.reset();
+                var ret;
+                current = ( ret = e.next() ) ? selector.call( self, e.current() ) : null;
+                return ret;
             };
         });
     }
@@ -70,27 +68,19 @@ linq.extend(
 {
     each: function( callback )
     {
-        var e = this.enumerator(),
-            i = 0,
-            current = e.next();
-        while ( current !== null )
+        var e = this.enumerator(), i = 0;
+        while ( e.next() )
         {
-            if ( callback.call( this, current, i++ ) === false )
+            if ( callback.call( this, e.current(), i++ ) === false )
                 break;
-            current = e.next();
         }
     },
 
     array: function()
     {
-        var ret = [],
-            e = this.enumerator(),
-            current = e.next();
-        while ( current !== null )
-        {
-            ret.push( current );
-            current = e.next();
-        }
+        var ret = [], e = this.enumerator();
+        while ( e.next() )
+            ret.push( e.current() );
         return ret;
     }
 });

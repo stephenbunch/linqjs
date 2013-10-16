@@ -2,20 +2,18 @@ linq.extend(
 {
     select: function( selector )
     {
-        var self = this,
-            e = self.enumerator();
+        var self = this, e = self.enumerator();
         return linq.enumerable( function()
         {
             var current = null;
+            this.current = function() {
+                return current;
+            };
             this.next = function()
             {
-                current = e.next();
-                if ( current === null )
-                    return null;
-                return selector.call( self, current );
-            };
-            this.reset = function() {
-                e.reset();
+                var ret;
+                current = ( ret = e.next() ) ? selector.call( self, e.current() ) : null;
+                return ret;
             };
         });
     }
