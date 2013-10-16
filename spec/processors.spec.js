@@ -33,10 +33,18 @@ describe( "enumerable.first", function()
     {
         expect( from([]).first() ).toBe( null );
     });
+});
 
-    it( "can take a filter", function()
+describe( "enumerable.last", function()
+{
+    it( "should get the last item in the enumeration", function()
     {
-        expect( from([ 1,2,3,4 ]).first( "|x| x % 2 === 0" ) ).toBe( 2 );
+        expect( from([ 1,2,3 ]).last() ).toBe( 3 );
+    });
+
+    it( "should return null if enumeration is empty", function()
+    {
+        expect( from([]).last() ).toBe( null );
     });
 });
 
@@ -45,11 +53,6 @@ describe( "enumerable.count", function()
     it( "should return the number of items in the enumerable", function()
     {
         expect( from([ 1,2,3 ]).count() ).toBe( 3 );
-    });
-
-    it( "can take a filter", function()
-    {
-        expect( from([ 1,2,3,4 ]).count( "|x| x % 2 === 0" ) ).toBe( 2 );
     });
 });
 

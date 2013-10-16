@@ -353,27 +353,35 @@ linq.extend(
 
     /**
      * @description Gets the first item in the enumeration.
-     * @param {lambda} [filter]
      * @returns {mixed}
      */
-    first: function( filter )
+    first: function()
     {
-        filter = linq.lambda( filter );
-        var e = filter ? this.where( filter ).enumerator() : this.enumerator();
+        var e = this.enumerator();
         e.next();
         return e.current();
     },
 
     /**
+     * @description Gets the last item in the enumeration.
+     * @returns {mixed}
+     */
+    last: function()
+    {
+        var e = this.enumerator();
+        var ret = null;
+        while ( e.next() )
+            ret = e.current();
+        return ret;
+    },
+
+    /**
      * @description Gets the number of items in the enumerable.
-     * @param {lambda} [filter]
      * @returns {number}
      */
-    count: function( filter )
+    count: function()
     {
-        filter = linq.lambda( filter );
-        var e = filter ? this.where( filter ).enumerator() : this.enumerator(),
-            count = 0;
+        var e = this.enumerator(), count = 0;
         while ( e.next() )
             count++;
         return count;
