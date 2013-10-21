@@ -416,11 +416,11 @@ linq.extend(
             current = e.current();
             key =
                 selectKey ? keySelector.call( self, current ) :
-                current.hasOwnProperty( "key" ) && current.key !== undefined ? current.key :
+                current.key !== undefined ? current.key :
                 i;
             value =
                 selectValue ? valueSelector.call( self, current ) :
-                current.hasOwnProperty( "value" ) && current.value !== undefined ? current.value :
+                current.value !== undefined ? current.value :
                 current;
             ret[ key ] = value;
             i++;
