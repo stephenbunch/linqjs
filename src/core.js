@@ -69,11 +69,16 @@ linq.times = window.times = function( times )
 
 /**
  * @description Creates a new enumerable with an item for each index in the range.
- * @param {number} start The first index.
- * @param {number} end The last index.
+ * @param {number|array} start The first index, or a 2-element array with the start and end index.
+ * @param {number} [end] The last index.
  */
 linq.range = window.range = function( start, end )
 {
+    if ( typeOf( start ) === "array" )
+    {
+        end = start[1];
+        start = start[0];
+    }
     var items = [];
     for ( ; start <= end; start++ )
         items.push( start );
