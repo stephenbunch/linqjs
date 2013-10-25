@@ -126,5 +126,43 @@ linq.extend(
                 return e.next();
             };
         });
+    },
+
+    groupBy: function( keySelector )
+    {
+        var self = this;
+        keySelector = linq.lambda( keySelector );
+        return linq.enumerable( function()
+        {
+            var groups = null, i = -1, len = null, keys = [];
+            this.current = function() {
+                return i < 0 || i >= len ? null : groups[ keys[ i ] ];
+            };
+            this.next = function()
+            {
+                if ( groups === null )
+                {
+                    var e = self.enumerator();
+                    groups = {};
+                    while ( e.next() )
+                    {
+                        var current = e.current();
+                        var key = keySelector( current );
+                        if ( !groups[ key ] )
+                        {
+                            groups[ key ] =
+                            {
+                                key: key,
+                                items: []
+                            };
+                            keys.push( key );
+                        }
+                        groups[ key ].items.push( current );
+                    }
+                    len = keys.length;
+                }
+                return ++i < len;
+            };
+        });
     }
 });

@@ -43,3 +43,47 @@ describe( "enumerable.step", function()
         expect( from([ 1,2,3 ]).step( 2 ).array() ).toEqual([ 1,3 ]);
     });
 });
+
+describe( "enumerable.groupBy", function()
+{
+    it( "should group items by key", function()
+    {
+        var items = [{
+            fruit: "lime",
+            color: "green"            
+        }, {
+            fruit: "apple",
+            color: "red"
+        }, {
+            fruit: "watermelon",
+            color: "green"
+        }, {
+            fruit: "blueberry",
+            color: "blue"
+        }];
+
+        expect( from( items ).groupBy( "|x| x.color" ).array() ).toEqual(
+        [{
+            key: "green",
+            items: [{
+                fruit: "lime",
+                color: "green"
+            }, {
+                fruit: "watermelon",
+                color: "green"
+            }]
+        }, {
+            key: "red",
+            items: [{
+                fruit: "apple",
+                color: "red"
+            }]
+        }, {
+            key: "blue",
+            items: [{
+                fruit: "blueberry",
+                color: "blue"
+            }]
+        }]);
+    });
+});
