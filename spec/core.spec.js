@@ -1,4 +1,4 @@
-describe( "from", function()
+describe( "from()", function()
 {
     it( "should enumerate over an array", function()
     {
@@ -28,9 +28,14 @@ describe( "from", function()
         expect( e.next() ).toBe( false );
         expect( e.current() ).toBe( null );
     });
+
+    it( "can take an enumerable", function()
+    {
+        expect( from( from([ 1, 2, 3 ]) ).array() ).toEqual([ 1, 2, 3 ]);
+    });
 });
 
-describe( "times", function()
+describe( "times()", function()
 {
     it( "should create an enumerable with an item for each index", function()
     {
@@ -38,7 +43,7 @@ describe( "times", function()
     });
 });
 
-describe( "range", function()
+describe( "range()", function()
 {
     it( "should create an enumerable with an item for each index in the range", function()
     {

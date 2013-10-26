@@ -17,7 +17,7 @@ linq.extend(
     /**
      * @description Converts the enumerable into an array.
      * @returns {array}
-     */    
+     */
     array: function()
     {
         var ret = [], e = this.enumerator();

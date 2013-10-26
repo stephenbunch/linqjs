@@ -27,11 +27,13 @@ linq.extend = function( methods )
 
 /**
  * @description Converts an array into an enumerable.
- * @param {array|object} items
+ * @param {array|object|Enumerable} items
  * @returns {Enumerable}
  */
 linq.from = window.from = function( items )
 {
+    if ( typeOf( items.enumerator ) === "function" )
+        return items;
     if ( !isArrayLike( items ) )
     {
         var obj = items, prop;

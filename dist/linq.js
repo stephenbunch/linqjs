@@ -36,11 +36,13 @@ linq.extend = function( methods )
 
 /**
  * @description Converts an array into an enumerable.
- * @param {array|object} items
+ * @param {array|object|Enumerable} items
  * @returns {Enumerable}
  */
 linq.from = window.from = function( items )
 {
+    if ( typeOf( items.enumerator ) === "function" )
+        return items;
     if ( !isArrayLike( items ) )
     {
         var obj = items, prop;
@@ -333,34 +335,52 @@ linq.extend(
         keySelector = linq.lambda( keySelector );
         return linq.enumerable( function()
         {
-            var groups = null, i = -1, len = null, keys = [];
+            var e = self.enumerator(),
+                keys = [],
+                groups = {};
+
+            while ( e.next() )
+            {
+                var current = e.current();
+                var key = keySelector( current );
+                if ( !groups[ key ] )
+                {
+                    groups[ key ] =
+                    {
+                        key: key,
+                        items: []
+                    };
+                    keys.push( key );
+                }
+                groups[ key ].items.push( current );
+            }
+
+            var i = -1,
+                len = keys.length;
+
             this.current = function() {
                 return i < 0 || i >= len ? null : groups[ keys[ i ] ];
             };
-            this.next = function()
-            {
-                if ( groups === null )
-                {
-                    var e = self.enumerator();
-                    groups = {};
-                    while ( e.next() )
-                    {
-                        var current = e.current();
-                        var key = keySelector( current );
-                        if ( !groups[ key ] )
-                        {
-                            groups[ key ] =
-                            {
-                                key: key,
-                                items: []
-                            };
-                            keys.push( key );
-                        }
-                        groups[ key ].items.push( current );
-                    }
-                    len = keys.length;
-                }
+            this.next = function() {
                 return ++i < len;
+            };
+        });
+    },
+
+    union: function( items )
+    {
+        var self = this;
+        items = linq.from( items );
+        return linq.enumerable( function()
+        {
+            var e1 = self.enumerator();
+            var e2 = items.enumerator();
+            var first = true;
+            this.current = function() {
+                return first ? e1.current() : e2.current();
+            };
+            this.next = function() {
+                return e1.next() || ( first = false ) || e2.next();
             };
         });
     }
@@ -385,7 +405,7 @@ linq.extend(
     /**
      * @description Converts the enumerable into an array.
      * @returns {array}
-     */    
+     */
     array: function()
     {
         var ret = [], e = this.enumerator();

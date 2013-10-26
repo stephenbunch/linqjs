@@ -1,4 +1,4 @@
-describe( "enumerable.each", function()
+describe( ".each()", function()
 {
     it( "should execute a callback for each item in an array", function()
     {
@@ -14,19 +14,19 @@ describe( "enumerable.each", function()
     });
 });
 
-describe( "enumerable.array", function()
+describe( ".array()", function()
 {
     it( "should convert the enumerable to an array", function()
     {
-        expect( from([ 1,2,3 ]).array() ).toEqual([ 1,2,3 ]);
+        expect( from([ 1, 2, 3 ]).array() ).toEqual([ 1, 2, 3 ]);
     });
 });
 
-describe( "enumerable.first", function()
+describe( ".first()", function()
 {
     it( "should return the first item in the enumeration", function()
     {
-        expect( from([ 1,2,3 ]).first() ).toBe( 1 );
+        expect( from([ 1, 2, 3 ]).first() ).toBe( 1 );
     });
 
     it( "should return null if enumeration is empty", function()
@@ -35,11 +35,11 @@ describe( "enumerable.first", function()
     });
 });
 
-describe( "enumerable.last", function()
+describe( ".last()", function()
 {
     it( "should get the last item in the enumeration", function()
     {
-        expect( from([ 1,2,3 ]).last() ).toBe( 3 );
+        expect( from([ 1, 2, 3 ]).last() ).toBe( 3 );
     });
 
     it( "should return null if enumeration is empty", function()
@@ -48,15 +48,15 @@ describe( "enumerable.last", function()
     });
 });
 
-describe( "enumerable.count", function()
+describe( ".count()", function()
 {
     it( "should return the number of items in the enumerable", function()
     {
-        expect( from([ 1,2,3 ]).count() ).toBe( 3 );
+        expect( from([ 1, 2, 3 ]).count() ).toBe( 3 );
     });
 });
 
-describe( "enumerable.hash", function()
+describe( ".hash()", function()
 {
     it( "can create a hash from an array of key/value pairs", function()
     {
@@ -94,17 +94,17 @@ describe( "enumerable.hash", function()
     });
 });
 
-describe( "enumerable.contains", function()
+describe( ".contains()", function()
 {
     it( "should return true/false if the enumerable contains the item", function()
     {
-        var e = from([ 1,2,3 ]);
+        var e = from([ 1, 2, 3 ]);
         expect( e.contains( 2 ) ).toBe( true );
         expect( e.contains( 5 ) ).toBe( false );
     });
 });
 
-describe( "enumerable.any", function()
+describe( ".any()", function()
 {
     it( "should return true/false if the enumerable contains items", function()
     {
