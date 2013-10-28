@@ -121,7 +121,7 @@ linq.lambda = function( expression )
     // As a convenience, allow passing actual functions.
     if ( typeOf( expression ) !== "string" ) return expression;
 
-    expression = expression.trim();
+    expression = trim( expression );
     var signature, body;
 
     // Check for ruby lambda syntax.
@@ -136,7 +136,7 @@ linq.lambda = function( expression )
             throw new SyntaxError( "Not a valid lambda expression. Example: x => x.foo" );
 
         var parts = expression.split( "=>" );
-        signature = parts[0].trim();
+        signature = trim( parts[0] );
         body = parts[1];
 
         if ( signature === "" )
@@ -149,7 +149,7 @@ linq.lambda = function( expression )
             throw new SyntaxError( "Lambda signature is invalid." );
     }
 
-    body = ( body || "" ).trim();
+    body = trim( body || "" );
     if ( body === "" )
         throw new SyntaxError( "Lambda must return something." );
 
@@ -197,6 +197,18 @@ function typeOf( object )
 {
     return Object.prototype.toString.call( object )
         .match( /^\[object\s(.*)\]$/ )[1].toLowerCase();
+}
+
+/**
+ * @private
+ * @description
+ * Removes trailing whitespace from a string.
+ * http://stackoverflow.com/a/2308157/740996
+ * @param {string} value
+ * @returns {string}
+ */
+function trim( value ) {
+    return value.trim ? value.trim() : value.replace( /^\s+|\s+$/g, "" );
 }
 
 linq.extend(
