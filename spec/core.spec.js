@@ -60,3 +60,53 @@ describe( "range()", function()
         expect( range([ 2, 4 ]).array() ).toEqual([ 2, 3, 4 ]);
     });
 });
+
+describe( "linq.lambda()", function()
+{
+    it( "should throw an error if expression is invalid", function()
+    {
+        expect( function()
+        {
+            linq.lambda( "x" );
+        }).toThrow( "Not a valid lambda expression. Example: x => x.foo" );
+
+        expect( function()
+        {
+            linq.lambda( "=> x" );
+        }).toThrow( "Lambda signature missing. For a parameterless signature, use: () => 42" );
+
+        expect( function()
+        {
+            linq.lambda( "() =>" );
+        }).toThrow( "Lambda must return something." );
+
+        expect( function()
+        {
+            linq.lambda( "a b => a" );
+        }).toThrow( "Lambda signature is invalid." );
+
+        expect( function()
+        {
+            linq.lambda( "2a => 2a" );
+        }).toThrow( "Lambda signature is invalid." );
+    });
+
+    it( "should return the compiled expression as a function", function()
+    {
+        expect( linq.lambda( "x => x.foo" )({ foo: 2 }) ).toBe( 2 );
+        expect( linq.lambda( "$x => $x.foo" )({ foo: 2 }) ).toBe( 2 );
+        expect( linq.lambda( "a, b => a + b" )( 2, 4 ) ).toBe( 6 );
+        expect( linq.lambda( "(x1) => 'hello ' + x1" )( "world" ) ).toBe( "hello world" );
+        expect( linq.lambda( "_x => _x ? 'foo' : 'spam'" )( true ) ).toBe( "foo" );
+    });
+
+    it( "should support the c# lambda syntax", function()
+    {
+        expect( linq.lambda( "a, b => a + b" )( 8, 16 ) ).toBe( 24 );
+    }); 
+
+    it( "should support the ruby lambda syntax", function()
+    {
+        expect( linq.lambda( "|a, b| a + b" )( 8, 16 ) ).toBe( 24 );
+    });
+});
