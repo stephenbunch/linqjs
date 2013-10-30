@@ -33,6 +33,11 @@ describe( "from()", function()
     {
         expect( from( from([ 1, 2, 3 ]) ).array() ).toEqual([ 1, 2, 3 ]);
     });
+
+    it( "can take nothing", function()
+    {
+        expect( from().array() ).toEqual( [] );
+    });
 });
 
 describe( "times()", function()

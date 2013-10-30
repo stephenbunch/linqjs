@@ -32,6 +32,7 @@ linq.extend = function( methods )
  */
 linq.from = window.from = function( items )
 {
+    items = items || [];
     if ( typeOf( items.enumerator ) === "function" )
         return items;
     if ( !isArrayLike( items ) )

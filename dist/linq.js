@@ -41,6 +41,7 @@ linq.extend = function( methods )
  */
 linq.from = window.from = function( items )
 {
+    items = items || [];
     if ( typeOf( items.enumerator ) === "function" )
         return items;
     if ( !isArrayLike( items ) )
@@ -221,6 +222,8 @@ linq.extend(
     select: function( selector )
     {
         selector = linq.lambda( selector );
+        if ( !selector )
+            throw new Error( "A selector is required." );
         var self = this;
         return linq.enumerable( function()
         {
@@ -345,6 +348,8 @@ linq.extend(
     {
         var self = this;
         keySelector = linq.lambda( keySelector );
+        if ( !keySelector )
+            throw new Error( "A key selector is required." );
         return linq.enumerable( function()
         {
             var e = self.enumerator(),
@@ -395,6 +400,51 @@ linq.extend(
                 return e1.next() || ( first = false ) || e2.next();
             };
         });
+    },
+
+    orderBy: function( selector )
+    {
+        var self = this;
+        selector = linq.lambda( selector );
+        if ( !selector )
+            throw new Error( "A selector is required." );
+        var comparer = function( x, y )
+        {
+            var a = selector( x ),
+                b = selector( y );
+            return a > b ? 1 : a < b ? -1 : 0;
+        };
+        var ret = linq.enumerable( function() {
+            return from( self.array().sort( comparer ) ).enumerator();
+        });
+        ret.thenBy = function( selector )
+        {
+            if ( !selector )
+                throw new Error( "A selector is required." );
+            selector = linq.lambda( selector );
+            var _super = comparer;
+            comparer = function( x, y )
+            {
+                var result = _super( x, y );
+                if ( result === 0 )
+                {
+                    var a = selector( x ),
+                        b = selector( y );
+                    result = a > b ? 1 : a < b ? -1 : 0;
+                }
+                return result;
+            };
+            return ret;
+        };
+        ret.descending = function()
+        {
+            var _super = comparer;
+            comparer = function( x, y ) {
+                return -1 * _super( x, y );
+            };
+            return ret;
+        };
+        return ret;
     }
 });
 
