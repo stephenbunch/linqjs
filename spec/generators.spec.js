@@ -189,3 +189,31 @@ describe( ".descending()", function()
         expect( from([ 1, 2, 3 ]).orderBy( "|x| x" ).descending().array() ).toEqual([ 3, 2, 1 ]);
     });
 });
+
+describe( ".distinct()", function()
+{
+    it( "should filter out duplicate items", function()
+    {
+        expect( from([ 1, 2, 3, 3, 2, 1, 4 ]).distinct().array() ).toEqual([ 1, 2, 3, 4 ]);
+    });
+
+    it( "can take a selector", function()
+    {
+        var data = [
+            { value: 1 },
+            { value: 2 },
+            { value: 3 },
+            { value: 3 },
+            { value: 2 },
+            { value: 1 },
+            { value: 4 }
+        ];
+        expect( from( data ).distinct( "|x| x.value" ).array() ).toEqual(
+        [
+            { value: 1 },
+            { value: 2 },
+            { value: 3 },
+            { value: 4 }
+        ]);
+    });
+});

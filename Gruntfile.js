@@ -24,7 +24,7 @@ module.exports = function( grunt )
         },
 
         jshint: {
-            dist: [ 'dist/linq.js' ]
+            dist: [ 'dist/linq.js', 'spec/**/*.js' ]
         },
 
         uglify: {

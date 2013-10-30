@@ -37,19 +37,14 @@ linq.extend(
         var self = this;
         return linq.enumerable( function()
         {
-            var current = null, e = self.enumerator(), i = 0;
-            this.current = function() {
-                return current;
-            };
+            var e = self.enumerator(), i = 0;
+            this.current = e.current;
             this.next = function()
             {
                 while ( e.next() )
                 {
                     if ( filter.call( self, e.current(), i++ ) )
-                    {
-                        current = e.current();
                         return true;
-                    }
                 }
                 return false;
             };
@@ -67,9 +62,7 @@ linq.extend(
         return linq.enumerable( function()
         {
             var e = self.enumerator(), count = 0;
-            this.current = function() {
-                return e.current();
-            };
+            this.current = e.current;
             this.next = function() {
                 return count++ < number && e.next();
             };
@@ -87,9 +80,7 @@ linq.extend(
         return linq.enumerable( function()
         {
             var e = self.enumerator(), count = 0;
-            this.current = function() {
-                return e.current();
-            };
+            this.current = e.current;
             this.next = function()
             {
                 while ( count < number && e.next() )
@@ -112,9 +103,7 @@ linq.extend(
         return linq.enumerable( function()
         {
             var e = self.enumerator(), started = false;
-            this.current = function() {
-                return e.current();
-            };
+            this.current = e.current;
             this.next = function()
             {
                 if ( !started )
@@ -231,5 +220,41 @@ linq.extend(
             return ret;
         };
         return ret;
+    },
+
+    distinct: function( selector )
+    {
+        var self = this;
+        selector = linq.lambda( selector );
+        function has( items, item )
+        {
+            if ( items.indexOf )
+                return items.indexOf( item ) !== -1;
+            var i = 0, len = items.length;
+            for ( ; i < len; i++ )
+            {
+                if ( items[ i ] === item )
+                    return true;
+            }
+            return false;
+        }
+        return linq.enumerable( function()
+        {
+            var e = self.enumerator(), seen = [];
+            this.current = e.current;
+            this.next = function()
+            {
+                while ( e.next() )
+                {
+                    var current = selector ? selector( e.current() ) : e.current();
+                    if ( !has( seen, current ) )
+                    {
+                        seen.push( current );
+                        return true;
+                    }
+                }
+                return false;
+            };
+        });
     }
 });
