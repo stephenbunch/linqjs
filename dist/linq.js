@@ -227,14 +227,14 @@ linq.extend(
         var self = this;
         return linq.enumerable( function()
         {
-            var current = null, e = self.enumerator();
+            var current = null, e = self.enumerator(), i = 0;
             this.current = function() {
                 return current;
             };
             this.next = function()
             {
                 var ret;
-                current = ( ret = e.next() ) ? selector.call( self, e.current() ) : null;
+                current = ( ret = e.next() ) ? selector.call( self, e.current(), i++ ) : null;
                 return ret;
             };
         });
@@ -251,7 +251,7 @@ linq.extend(
         var self = this;
         return linq.enumerable( function()
         {
-            var current = null, e = self.enumerator();
+            var current = null, e = self.enumerator(), i = 0;
             this.current = function() {
                 return current;
             };
@@ -259,7 +259,7 @@ linq.extend(
             {
                 while ( e.next() )
                 {
-                    if ( filter.call( self, e.current() ) )
+                    if ( filter.call( self, e.current(), i++ ) )
                     {
                         current = e.current();
                         return true;

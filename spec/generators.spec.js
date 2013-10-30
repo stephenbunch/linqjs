@@ -2,10 +2,7 @@ describe( ".select()", function()
 {
     it( "should return the result from the selector", function()
     {
-        var e = from([ 1, 2, 3 ]).select( function( x ) {
-            return x * x;
-        });
-        expect( e.array() ).toEqual([ 1, 4, 9 ]);
+        expect( from([ 1, 2, 3 ]).select( "x => x * x" ).array() ).toEqual([ 1, 4, 9 ]);
     });
 
     it( "should throw an error if selector is missing", function()
@@ -15,6 +12,11 @@ describe( ".select()", function()
         {
             e.select();
         }).toThrow();
+    });
+
+    it( "should pass the item index as the second argument", function()
+    {
+        expect( from([ 100, 101, 102 ]).select( "x, i => i" ).array() ).toEqual([ 0, 1, 2 ]);
     });
 });
 
@@ -26,6 +28,11 @@ describe( ".where()", function()
             return x % 2 === 0;
         });
         expect( e.array() ).toEqual([ 2,4 ]);
+    });
+
+    it( "should pass the item index as the second argument", function()
+    {
+        expect( from([ 5, 6, 2, 3, 7 ]).where( "x, i => i % 2 === 0" ).array() ).toEqual([ 5, 2, 7 ]);
     });
 });
 
