@@ -256,5 +256,20 @@ linq.extend(
                 return false;
             };
         });
+    },
+
+    reverse: function()
+    {
+        var self = this;
+        return linq.enumerable( function()
+        {
+            var items = self.array(), len = items.length, i = len;
+            this.current = function() {
+                return i > -1 && i < len ? items[ i ] : null;
+            };
+            this.next = function() {
+                return --i > -1;
+            };
+        });
     }
 });

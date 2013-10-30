@@ -217,3 +217,11 @@ describe( ".distinct()", function()
         ]);
     });
 });
+
+describe( ".reverse()", function()
+{
+    it( "should reverse the order of the enumerable", function()
+    {
+        expect( from([ 1, 2, 3 ]).reverse().array() ).toEqual([ 3, 2, 1 ]);
+    });
+});
