@@ -141,7 +141,7 @@ describe( ".orderBy()", function()
 
 describe( ".thenBy()", function()
 {
-    it( "should add another sort to the enumerable", function()
+    it( "should add a subsequent sort to the enumerable", function()
     {
         var data = [{
             first: "Susan",
