@@ -118,8 +118,29 @@ linq.extend(
      * @description Gets whether the enumerable contains any items.
      * @returns {boolean}
      */
-    any: function()
-    {
+    any: function() {
         return this.first() !== null;
+    },
+
+    min: function()
+    {
+        var ret = null, e = this.enumerator();
+        while ( e.next() )
+        {
+            if ( ret === null || e.current() < ret )
+                ret = e.current();
+        }
+        return ret;
+    },
+
+    max: function()
+    {
+        var ret = null, e = this.enumerator();
+        while ( e.next() )
+        {
+            if ( ret === null || e.current() > ret )
+                ret = e.current();
+        }
+        return ret;
     }
 });

@@ -112,3 +112,19 @@ describe( ".any()", function()
         expect( from([]).any() ).toBe( false );
     });
 });
+
+describe( ".min()", function()
+{
+    it( "should return the smallest item", function()
+    {
+        expect( from([ 3, 2, 1 ]).min() ).toBe( 1 );
+    });
+});
+
+describe( ".max()", function()
+{
+    it( "should return the largest item", function()
+    {
+        expect( from([ 1, 2, 3 ]).max() ).toBe( 3 );
+    });
+});
