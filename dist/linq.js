@@ -485,6 +485,40 @@ linq.extend(
                 return --i > -1;
             };
         });
+    },
+
+    selectMany: function( selector )
+    {
+        var self = this;
+        selector = linq.lambda( selector );
+        return linq.enumerable( function()
+        {
+            var e = self.enumerator();
+            var current = null;
+            this.current = function() {
+                return current ? current.current() : null;
+            };
+            this.next = function()
+            {
+                while ( true )
+                {
+                    if ( current === null )
+                    {
+                        if ( e.next() )
+                            current = from( selector ? selector( e.current() ) : e.current() ).enumerator();
+                        else
+                            return false;
+                    }
+                    else
+                    {
+                        if ( current.next() )
+                            return true;
+                        else
+                            current = null;
+                    }
+                }
+            };
+        });
     }
 });
 

@@ -225,3 +225,19 @@ describe( ".reverse()", function()
         expect( from([ 1, 2, 3 ]).reverse().array() ).toEqual([ 3, 2, 1 ]);
     });
 });
+
+describe( ".selectMany()", function()
+{
+    it( "should inline each enumerable item into a single enumerable", function()
+    {
+        var data = [
+            [ 0, 1, 2 ],
+            [ 3, 4 ],
+            [],
+            [ 5 ],
+            [ 6, 7 ],
+            [ 8, 9, 10 ]
+        ];
+        expect( from( data ).selectMany( "x => x" ).array() ).toEqual([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]);
+    });
+});
