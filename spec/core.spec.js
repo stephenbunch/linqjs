@@ -109,4 +109,9 @@ describe( "linq.lambda()", function()
     {
         expect( linq.lambda( "|a, b| a + b" )( 8, 16 ) ).toBe( 24 );
     });
+
+    it( "should support the '=>' symbol in the body", function()
+    {
+        expect( linq.lambda( "() => '=>'" )() ).toBe( "=>" );
+    });
 });

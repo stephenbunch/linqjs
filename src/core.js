@@ -128,8 +128,8 @@ linq.lambda = function( expression )
             throw new SyntaxError( "Not a valid lambda expression. Example: x => x.foo" );
 
         var parts = expression.split( "=>" );
-        signature = trim( parts[0] );
-        body = parts[1];
+        signature = trim( parts.shift() );
+        body = parts.join( "=>" );
 
         if ( signature === "" )
             throw new SyntaxError( "Lambda signature missing. For a parameterless signature, use: () => 42" );
