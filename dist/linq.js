@@ -646,25 +646,38 @@ linq.extend(
         return this.first() !== null;
     },
 
-    min: function()
+    min: function( selector )
     {
+        selector = linq.lambda( selector );
         var ret = null, e = this.enumerator();
         while ( e.next() )
         {
-            if ( ret === null || e.current() < ret )
-                ret = e.current();
+            var current = selector ? selector( e.current() ) : e.current();
+            if ( ret === null || current < ret )
+                ret = current;
         }
         return ret;
     },
 
-    max: function()
+    max: function( selector )
     {
+        selector = linq.lambda( selector );
         var ret = null, e = this.enumerator();
         while ( e.next() )
         {
-            if ( ret === null || e.current() > ret )
-                ret = e.current();
+            var current = selector ? selector( e.current() ) : e.current();
+            if ( ret === null || current > ret )
+                ret = current;
         }
+        return ret;
+    },
+
+    sum: function( selector )
+    {
+        selector = linq.lambda( selector );
+        var ret = 0, e = this.enumerator();
+        while ( e.next() )
+            ret += selector ? selector( e.current() ) : e.current();
         return ret;
     }
 });

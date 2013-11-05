@@ -119,6 +119,16 @@ describe( ".min()", function()
     {
         expect( from([ 3, 2, 1 ]).min() ).toBe( 1 );
     });
+
+    it( "can take a selector", function()
+    {
+        var data = [
+            { x: 1 },
+            { x: 2 },
+            { x: 0 }
+        ];
+        expect( from( data ).min( "x => x.x" ) ).toBe( 0 );
+    });
 });
 
 describe( ".max()", function()
@@ -126,5 +136,33 @@ describe( ".max()", function()
     it( "should return the largest item", function()
     {
         expect( from([ 1, 2, 3 ]).max() ).toBe( 3 );
+    });
+
+    it( "can take a selector", function()
+    {
+        var data = [
+            { x: 1 },
+            { x: 2 },
+            { x: 0 }
+        ];
+        expect( from( data ).max( "x => x.x" ) ).toBe( 2 );
+    });
+});
+
+describe( ".sum()", function()
+{
+    it( "should add all the items together", function()
+    {
+        expect( from([ 1, 2, 3 ]).sum() ).toBe( 6 );
+    });
+
+    it( "can take a selector", function()
+    {
+        var data = [
+            { x: 1 },
+            { x: 2 },
+            { x: 3 }
+        ];
+        expect( from( data ).sum( "x => x.x" ) ).toBe( 6 );
     });
 });
