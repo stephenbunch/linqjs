@@ -183,8 +183,9 @@ linq.extend(
         selector = linq.lambda( selector );
         if ( !selector )
             throw new Error( "A selector is required." );
-        var comparer = function( x, y )
+        var comparer = function( x, y, e )
         {
+            if ( e ) e.handled = true;
             var a = selector( x ),
                 b = selector( y );
             return a > b ? 1 : a < b ? -1 : 0;
@@ -198,27 +199,34 @@ linq.extend(
                 throw new Error( "A selector is required." );
             selector = linq.lambda( selector );
             var _super = comparer;
-            comparer = function( x, y )
+            comparer = function( x, y, e )
             {
                 var result = _super( x, y );
                 if ( result === 0 )
                 {
+                    if ( e ) e.handled = true;
                     var a = selector( x ),
                         b = selector( y );
                     result = a > b ? 1 : a < b ? -1 : 0;
                 }
                 return result;
             };
+            ret.descending = descending;
             return ret;
         };
-        ret.descending = function()
+        var descending = function()
         {
             var _super = comparer;
-            comparer = function( x, y ) {
-                return -1 * _super( x, y );
+            comparer = function( x, y )
+            {
+                var e = {};
+                var result = _super( x, y, e );
+                return e.handled ? -1 * result : result;
             };
+            delete ret.descending;
             return ret;
         };
+        ret.descending = descending;
         return ret;
     },
 

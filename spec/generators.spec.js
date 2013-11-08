@@ -188,6 +188,26 @@ describe( ".descending()", function()
     {
         expect( from([ 1, 2, 3 ]).orderBy( "|x| x" ).descending().array() ).toEqual([ 3, 2, 1 ]);
     });
+
+    it( "should not reverse prior sort orders", function()
+    {
+        var data = [
+            [ 1 ],
+            [ 2, 2 ],
+            [ 3, 3, 3 ]
+        ];
+        expect( from( data ).orderBy( "|x| x.length" ).thenBy( "|x| x[0]" ).descending().array() ).toEqual(
+        [
+            [ 1 ],
+            [ 2, 2 ],
+            [ 3, 3, 3 ]
+        ]);
+    });
+
+    it( "should not provide a descending method", function()
+    {
+        expect( from().orderBy( "|x| x" ).descending().descending ).not.toBeDefined();
+    });
 });
 
 describe( ".distinct()", function()
