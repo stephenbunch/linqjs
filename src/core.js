@@ -34,7 +34,7 @@ linq.from = window.from = function( items )
 {
     items = items || [];
     if ( typeOf( items.enumerator ) === "function" )
-        return items;
+        return new Enumerable( items.enumerator );
     if ( !isArrayLike( items ) )
     {
         var obj = items, prop;

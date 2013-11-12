@@ -38,6 +38,12 @@ describe( "from()", function()
     {
         expect( from().array() ).toEqual( [] );
     });
+
+    it( "should return a new enumerable if the object passed in is an enumerable", function()
+    {
+        var x = from([ 1, 2, 3 ]);
+        expect( from( x ) ).not.toBe( x );
+    });
 });
 
 describe( "times()", function()
