@@ -1,6 +1,13 @@
 var linq = window.linq = {};
 
-var Enumerable = linq.enumerable = function( Enumerator )
+if ( typeof define === "function" && define.amd )
+{
+    define( function() {
+        return linq;
+    });
+}
+
+var Enumerable = linq.Enumerable = function( Enumerator )
 {
     if ( !( this instanceof Enumerable ) )
         return new Enumerable( Enumerator );

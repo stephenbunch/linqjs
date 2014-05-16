@@ -11,7 +11,7 @@ linq.extend(
         if ( !selector )
             throw new Error( "A selector is required." );
         var self = this;
-        return linq.enumerable( function()
+        return new Enumerable( function()
         {
             var current = null, e = self.enumerator(), i = 0;
             this.current = function() {
@@ -35,7 +35,7 @@ linq.extend(
     {
         filter = linq.lambda( filter );
         var self = this;
-        return linq.enumerable( function()
+        return new Enumerable( function()
         {
             var e = self.enumerator(), i = 0;
             this.current = e.current;
@@ -59,7 +59,7 @@ linq.extend(
     take: function( number )
     {
         var self = this;
-        return linq.enumerable( function()
+        return new Enumerable( function()
         {
             var e = self.enumerator(), count = 0;
             this.current = e.current;
@@ -77,7 +77,7 @@ linq.extend(
     skip: function( number )
     {
         var self = this;
-        return linq.enumerable( function()
+        return new Enumerable( function()
         {
             var e = self.enumerator(), count = 0;
             this.current = e.current;
@@ -100,7 +100,7 @@ linq.extend(
     step: function( number )
     {
         var self = this;
-        return linq.enumerable( function()
+        return new Enumerable( function()
         {
             var e = self.enumerator(), started = false;
             this.current = e.current;
@@ -125,7 +125,7 @@ linq.extend(
         keySelector = linq.lambda( keySelector );
         if ( !keySelector )
             throw new Error( "A key selector is required." );
-        return linq.enumerable( function()
+        return new Enumerable( function()
         {
             var e = self.enumerator(),
                 keys = [],
@@ -163,7 +163,7 @@ linq.extend(
     {
         var self = this;
         items = linq.from( items );
-        return linq.enumerable( function()
+        return new Enumerable( function()
         {
             var e1 = self.enumerator();
             var e2 = items.enumerator();
@@ -190,7 +190,7 @@ linq.extend(
                 b = selector( y );
             return a > b ? 1 : a < b ? -1 : 0;
         };
-        var ret = linq.enumerable( function() {
+        var ret = new Enumerable( function() {
             return from( self.array().sort( comparer ) ).enumerator();
         });
         ret.thenBy = function( selector )
@@ -246,7 +246,7 @@ linq.extend(
             }
             return false;
         }
-        return linq.enumerable( function()
+        return new Enumerable( function()
         {
             var e = self.enumerator(), seen = [];
             this.current = e.current;
@@ -269,7 +269,7 @@ linq.extend(
     reverse: function()
     {
         var self = this;
-        return linq.enumerable( function()
+        return new Enumerable( function()
         {
             var items = self.array(), len = items.length, i = len;
             this.current = function() {
@@ -285,7 +285,7 @@ linq.extend(
     {
         var self = this;
         selector = linq.lambda( selector );
-        return linq.enumerable( function()
+        return new Enumerable( function()
         {
             var e = self.enumerator();
             var current = null;
