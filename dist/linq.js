@@ -3,18 +3,11 @@
  * (c) 2013 Stephen Bunch https://github.com/stephenbunch/linqjs
  * License: MIT
  */
-( function ( window, undefined ) {
+( function ( global ) {
 
 "use strict";
 
-var linq = window.linq = {};
-
-if ( typeof define === "function" && define.amd )
-{
-    define( function() {
-        return linq;
-    });
-}
+var linq = {};
 
 var Enumerable = linq.Enumerable = function( Enumerator )
 {
@@ -46,7 +39,7 @@ linq.extend = function( methods )
  * @param {array|object|Enumerable} items
  * @returns {Enumerable}
  */
-linq.from = window.from = function( items )
+linq.from = function( items )
 {
     items = items || [];
     if ( typeOf( items.enumerator ) === "function" )
@@ -78,7 +71,7 @@ linq.from = window.from = function( items )
  * @param {number} times The length of the enumeration.
  * @returns {Enumerable}
  */
-linq.times = window.times = function( times )
+linq.times = function( times )
 {
     var i = 0, items = [];
     for ( ; i < times; i++ )
@@ -91,7 +84,7 @@ linq.times = window.times = function( times )
  * @param {number|array} start The first index, or a 2-element array with the start and end index.
  * @param {number} [end] The last index.
  */
-linq.range = window.range = function( start, end )
+linq.range = function( start, end )
 {
     if ( typeOf( start ) === "array" )
     {
@@ -697,4 +690,22 @@ linq.extend(
     }
 });
 
-} ( window ) );
+if ( typeof module !== "undefined" && module.exports )
+{
+    module.exports = linq;
+}
+else if ( typeof define === "function" && define.amd )
+{
+    define( function() {
+        return linq;
+    });
+}
+else
+{
+    global.linq = linq;
+    global.from = linq.from;
+    global.range = linq.range;
+    global.times = linq.times;
+}
+
+} ( typeof global === "undefined" ? window : global ) );

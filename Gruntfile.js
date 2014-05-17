@@ -17,6 +17,7 @@ module.exports = function( grunt )
                     'src/core.js',
                     'src/generators.js',
                     'src/processors.js',
+                    'src/exports.js',
                     'src/outro.js'
                 ],
                 dest: 'dist/linq.js'

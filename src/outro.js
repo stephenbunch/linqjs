@@ -1,1 +1,1 @@
-} ( window ) );
+} ( typeof global === "undefined" ? window : global ) );
