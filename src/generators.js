@@ -191,7 +191,7 @@ linq.extend(
             return a > b ? 1 : a < b ? -1 : 0;
         };
         var ret = new Enumerable( function() {
-            return from( self.array().sort( comparer ) ).enumerator();
+            return linq.from( self.array().sort( comparer ) ).enumerator();
         });
         ret.thenBy = function( selector )
         {
@@ -299,7 +299,7 @@ linq.extend(
                     if ( current === null )
                     {
                         if ( e.next() )
-                            current = from( selector ? selector( e.current() ) : e.current() ).enumerator();
+                            current = linq.from( selector ? selector( e.current() ) : e.current() ).enumerator();
                         else
                             return false;
                     }
