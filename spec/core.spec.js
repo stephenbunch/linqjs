@@ -2,7 +2,7 @@ describe( "from()", function()
 {
     it( "should enumerate over an array", function()
     {
-        var e = from([ 1, 2, 3 ]).enumerator();
+        var e = linq.from([ 1, 2, 3 ]).enumerator();
         expect( e.next() ).toBe( true );
         expect( e.current() ).toBe( 1 );
         expect( e.next() ).toBe( true );
@@ -15,12 +15,12 @@ describe( "from()", function()
 
     it( "should enumerate over false values", function()
     {
-        expect( from([ false, 0, null, undefined ]).array() ).toEqual([ false, 0, null, undefined ]);
+        expect( linq.from([ false, 0, null, undefined ]).array() ).toEqual([ false, 0, null, undefined ]);
     });
 
     it( "can take an object", function()
     {
-        var e = from({ foo: 1, bar: 2 }).enumerator();
+        var e = linq.from({ foo: 1, bar: 2 }).enumerator();
         expect( e.next() ).toBe( true );
         expect( e.current() ).toEqual({ key: "foo", value: 1 });
         expect( e.next() ).toBe( true );
@@ -31,18 +31,18 @@ describe( "from()", function()
 
     it( "can take an enumerable", function()
     {
-        expect( from( from([ 1, 2, 3 ]) ).array() ).toEqual([ 1, 2, 3 ]);
+        expect( linq.from( linq.from([ 1, 2, 3 ]) ).array() ).toEqual([ 1, 2, 3 ]);
     });
 
     it( "can take nothing", function()
     {
-        expect( from().array() ).toEqual( [] );
+        expect( linq.from().array() ).toEqual( [] );
     });
 
     it( "should return a new enumerable if the object passed in is an enumerable", function()
     {
-        var x = from([ 1, 2, 3 ]);
-        expect( from( x ) ).not.toBe( x );
+        var x = linq.from([ 1, 2, 3 ]);
+        expect( linq.from( x ) ).not.toBe( x );
     });
 });
 
@@ -50,7 +50,7 @@ describe( "times()", function()
 {
     it( "should create an enumerable with an item for each index", function()
     {
-        expect( times( 3 ).array() ).toEqual([ 0, 1, 2 ]);
+        expect( linq.times( 3 ).array() ).toEqual([ 0, 1, 2 ]);
     });
 });
 
@@ -58,16 +58,16 @@ describe( "range()", function()
 {
     it( "should create an enumerable with an item for each index in the range", function()
     {
-        expect( range( 2, 4 ).array() ).toEqual([ 2, 3, 4 ]);
+        expect( linq.range( 2, 4 ).array() ).toEqual([ 2, 3, 4 ]);
     });
 
     it( "can take an array", function()
     {
-        expect( range([ 2, 4 ]).array() ).toEqual([ 2, 3, 4 ]);
+        expect( linq.range([ 2, 4 ]).array() ).toEqual([ 2, 3, 4 ]);
     });
 });
 
-describe( "linq.lambda()", function()
+describe( "lambda()", function()
 {
     it( "should throw an error if expression is invalid", function()
     {
@@ -119,5 +119,11 @@ describe( "linq.lambda()", function()
     it( "should support the '=>' symbol in the body", function()
     {
         expect( linq.lambda( "() => '=>'" )() ).toBe( "=>" );
+    });
+
+    it( "should bind the 'this' context to the second parameter", function()
+    {
+        expect( linq.lambda( "() => this" ).call( "foo" ) ).toBe( undefined );
+        expect( linq.lambda( "() => this", "bar" ).call( "foo" ) ).toBe( "bar" );
     });
 });

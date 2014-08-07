@@ -115,11 +115,19 @@ var sig_ruby = /^\| *([a-zA-Z_$]+[a-zA-Z_$0-9]* *(?:, *[a-zA-Z_$]+[a-zA-Z_$0-9]*
  *   linq.lambda( "|x| x.foo" )             -> function( x ) { return x.foo; }
  *
  * @param {string} expression
+ * @param {*} [context]
  * @returns {function}
  */
-linq.lambda = function( expression )
+linq.lambda = function( expression, context )
 {
     // As a convenience, allow passing actual functions.
+    if ( typeOf( expression ) === "function" )
+    {
+        return function() {
+            return expression.apply( context, arguments );
+        };
+    }
+
     if ( typeOf( expression ) !== "string" ) return expression;
 
     expression = trim( expression );
@@ -156,7 +164,10 @@ linq.lambda = function( expression )
 
     // Return compiled function.
     /*jslint evil: true */
-    return new Function( signature, "return " + body );
+    var func = new Function( signature, "'use strict'; return " + body );
+    return function() {
+        return func.apply( context, arguments );
+    };
 };
 
 /**
@@ -243,11 +254,12 @@ linq.extend(
     /**
      * @description Excludes items that don't match the filter.
      * @param {lambda} filter
+     * @param {*} [context]
      * @returns {Enumerable}
      */
-    where: function( filter )
+    where: function( filter, context )
     {
-        filter = linq.lambda( filter );
+        filter = linq.lambda( filter, context );
         var self = this;
         return new Enumerable( function()
         {
@@ -703,9 +715,6 @@ else if ( typeof define === "function" && define.amd )
 else
 {
     global.linq = linq;
-    global.from = linq.from;
-    global.range = linq.range;
-    global.times = linq.times;
 }
 
 } ( typeof global === "undefined" ? window : global ) );

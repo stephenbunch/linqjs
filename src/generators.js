@@ -29,11 +29,12 @@ linq.extend(
     /**
      * @description Excludes items that don't match the filter.
      * @param {lambda} filter
+     * @param {*} [context]
      * @returns {Enumerable}
      */
-    where: function( filter )
+    where: function( filter, context )
     {
-        filter = linq.lambda( filter );
+        filter = linq.lambda( filter, context );
         var self = this;
         return new Enumerable( function()
         {

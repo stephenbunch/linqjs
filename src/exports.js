@@ -11,7 +11,4 @@ else if ( typeof define === "function" && define.amd )
 else
 {
     global.linq = linq;
-    global.from = linq.from;
-    global.range = linq.range;
-    global.times = linq.times;
 }
