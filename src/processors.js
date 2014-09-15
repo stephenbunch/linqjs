@@ -18,7 +18,7 @@ linq.extend(
      * @description Converts the enumerable into an array.
      * @returns {array}
      */
-    array: function()
+    toArray: function()
     {
         var ret = [], e = this.enumerator();
         while ( e.next() )
@@ -68,7 +68,7 @@ linq.extend(
      * @param {lambda} [valueSelector]
      * @returns {object}
      */
-    hash: function( keySelector, valueSelector )
+    toObject: function( keySelector, valueSelector )
     {
         var self = this,
             ret = {},

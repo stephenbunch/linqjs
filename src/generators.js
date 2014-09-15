@@ -192,7 +192,7 @@ linq.extend(
             return a > b ? 1 : a < b ? -1 : 0;
         };
         var ret = new Enumerable( function() {
-            return linq.from( self.array().sort( comparer ) ).enumerator();
+            return linq.from( self.toArray().sort( comparer ) ).enumerator();
         });
         ret.thenBy = function( selector )
         {
@@ -272,7 +272,7 @@ linq.extend(
         var self = this;
         return new Enumerable( function()
         {
-            var items = self.array(), len = items.length, i = len;
+            var items = self.toArray(), len = items.length, i = len;
             this.current = function() {
                 return i > -1 && i < len ? items[ i ] : null;
             };

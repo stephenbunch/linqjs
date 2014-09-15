@@ -14,11 +14,11 @@ describe( ".each()", function()
     });
 });
 
-describe( ".array()", function()
+describe( ".toArray()", function()
 {
     it( "should convert the enumerable to an array", function()
     {
-        expect( linq.from([ 1, 2, 3 ]).array() ).toEqual([ 1, 2, 3 ]);
+        expect( linq.from([ 1, 2, 3 ]).toArray() ).toEqual([ 1, 2, 3 ]);
     });
 });
 
@@ -56,11 +56,11 @@ describe( ".count()", function()
     });
 });
 
-describe( ".hash()", function()
+describe( ".toObject()", function()
 {
-    it( "can create a hash from an array of key/value pairs", function()
+    it( "should create a hash from an array of key/value pairs", function()
     {
-        expect( linq.from({ foo: 2, bar: 3 }).hash() ).toEqual({ foo: 2, bar: 3 });
+        expect( linq.from({ foo: 2, bar: 3 }).toObject() ).toEqual({ foo: 2, bar: 3 });
     });
 
     it( "can take a key selector", function()
@@ -70,7 +70,7 @@ describe( ".hash()", function()
             { name: "Bob", age: 20 },
             { name: "Sally", age: 21 }
         ];
-        expect( linq.from( data ).hash( "|x| x.name" ).Joe.age ).toBe( 23 );
+        expect( linq.from( data ).toObject( "|x| x.name" ).Joe.age ).toBe( 23 );
     });
 
     it( "can take a value selector", function()
@@ -80,7 +80,7 @@ describe( ".hash()", function()
             { name: "Bob", age: 20 },
             { name: "Sally", age: 21 }
         ];
-        expect( linq.from( data ).hash( "|x| x.name", "|x| x.age" ).Joe ).toBe( 23 );
+        expect( linq.from( data ).toObject( "|x| x.name", "|x| x.age" ).Joe ).toBe( 23 );
     });
 
     it( "can do without a key selector", function()
@@ -90,7 +90,7 @@ describe( ".hash()", function()
             { name: "Bob", age: 20 },
             { name: "Sally", age: 21 }
         ];
-        expect( linq.from( data ).hash( null, "|x| x.age" )[0] ).toBe( 23 );
+        expect( linq.from( data ).toObject( null, "|x| x.age" )[0] ).toBe( 23 );
     });
 });
 

@@ -15,7 +15,7 @@ describe( "from()", function()
 
     it( "should enumerate over false values", function()
     {
-        expect( linq.from([ false, 0, null, undefined ]).array() ).toEqual([ false, 0, null, undefined ]);
+        expect( linq.from([ false, 0, null, undefined ]).toArray() ).toEqual([ false, 0, null, undefined ]);
     });
 
     it( "can take an object", function()
@@ -31,12 +31,12 @@ describe( "from()", function()
 
     it( "can take an enumerable", function()
     {
-        expect( linq.from( linq.from([ 1, 2, 3 ]) ).array() ).toEqual([ 1, 2, 3 ]);
+        expect( linq.from( linq.from([ 1, 2, 3 ]) ).toArray() ).toEqual([ 1, 2, 3 ]);
     });
 
     it( "can take nothing", function()
     {
-        expect( linq.from().array() ).toEqual( [] );
+        expect( linq.from().toArray() ).toEqual( [] );
     });
 
     it( "should return a new enumerable if the object passed in is an enumerable", function()
@@ -50,7 +50,7 @@ describe( "times()", function()
 {
     it( "should create an enumerable with an item for each index", function()
     {
-        expect( linq.times( 3 ).array() ).toEqual([ 0, 1, 2 ]);
+        expect( linq.times( 3 ).toArray() ).toEqual([ 0, 1, 2 ]);
     });
 });
 
@@ -58,12 +58,12 @@ describe( "range()", function()
 {
     it( "should create an enumerable with an item for each index in the range", function()
     {
-        expect( linq.range( 2, 4 ).array() ).toEqual([ 2, 3, 4 ]);
+        expect( linq.range( 2, 4 ).toArray() ).toEqual([ 2, 3, 4 ]);
     });
 
     it( "can take an array", function()
     {
-        expect( linq.range([ 2, 4 ]).array() ).toEqual([ 2, 3, 4 ]);
+        expect( linq.range([ 2, 4 ]).toArray() ).toEqual([ 2, 3, 4 ]);
     });
 });
 
