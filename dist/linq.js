@@ -539,6 +539,105 @@ linq.extend(
                 }
             };
         });
+    },
+
+    /**
+     * @description Joins another collection onto the enumerable.
+     * @param {String} [type] The join type. Can be either (left|right|inner). Default is 'inner'.
+     * @param {Object|Array|Enumerable} items The collection to join.
+     * @param {Lambda|Function} comparer A comparer function to evaluate matches. The comparer takes
+     * two arguments 'a' and 'b' where 'a' is the left (source enumerable) value and 'b' is the right
+     * (joined collection) value.
+     * @returns {Enumerable}
+     */
+    join: function( type, items, comparer )
+    {
+        var self = this;
+        if ( typeOf( type ) !== 'string' )
+        {
+            comparer = items;
+            items = type;
+            type = 'inner';
+        }
+        if ( !comparer )
+        {
+            comparer = function( a, b ) {
+                return a === b;
+            };
+        }
+        comparer = linq.lambda( comparer );
+        return new Enumerable( function()
+        {
+            var left = self.toArray();
+            var right = linq.from( items ).toArray();
+            var primary =
+                type === "right" ? right :
+                type === "left" ? left :
+                left.length <= right.length ? left : right;
+            var secondary = left === primary ? right : left;
+            var length = primary.length;
+
+            var current = null;
+            var index = 0;
+            var cursor = 0;
+            var matches = [];
+
+            this.current = function() {
+                return current;
+            };
+
+            this.next = function()
+            {
+                current = null;
+                if ( cursor < matches.length )
+                {
+                    current = matches[ cursor ];
+                    cursor++;
+                }
+                else
+                {
+                    while ( index < length )
+                    {
+                        /*jshint loopfunc: true */
+                        matches = linq.from( secondary ).where( function( item ) {
+                            return comparer(
+                                secondary === left ? item : left[ index ],
+                                secondary === right ? item : right[ index ]
+                            );
+                        }).toArray();
+                        if ( matches.length === 0 )
+                        {
+                            if ( type === "left" )
+                            {
+                                current = { a: left[ index ], b: null };
+                                break;
+                            }
+                            else if ( type === "right" )
+                            {
+                                current = { a: null, b: right[ index ] };
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            /*jshint loopfunc: true */
+                            matches = linq.from( matches ).select( function( item ) {
+                                return (
+                                    secondary === left ?
+                                    { a: item, b: right[ index ] } :
+                                    { a: left[ index ], b: item }
+                                );
+                            }).toArray();
+                            current = matches[ 0 ];
+                            cursor = 1;
+                            break;
+                        }
+                    }
+                    index++;
+                }
+                return current !== null;
+            };
+        });
     }
 });
 
