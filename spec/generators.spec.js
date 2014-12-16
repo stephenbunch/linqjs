@@ -276,9 +276,9 @@ describe( ".join()", function()
             var a = [ 1, 2, 3, 4, 5 ];
             var b = [ 1, 3, 5 ];
             expect( linq.from( a ).join( b ).toArray() ).toEqual([
-                { a: 1, b: 1 },
-                { a: 3, b: 3 },
-                { a: 5, b: 5 }
+                [ 1, 1 ],
+                [ 3, 3 ],
+                [ 5, 5 ]
             ]);
         });
 
@@ -288,13 +288,13 @@ describe( ".join()", function()
             var b = [{ foo: 1 }, { foo: 3 }, { foo: 5 }];
             var result = linq.from( a ).join( b, "(a, b) => a.foo === b.foo" ).toArray();
 
-            expect( result[0].a ).toBe( a[0] );
-            expect( result[1].a ).toBe( a[2] );
-            expect( result[2].a ).toBe( a[4] );
+            expect( result[0][0] ).toBe( a[0] );
+            expect( result[1][0] ).toBe( a[2] );
+            expect( result[2][0] ).toBe( a[4] );
 
-            expect( result[0].b ).toBe( b[0] );
-            expect( result[1].b ).toBe( b[1] );
-            expect( result[2].b ).toBe( b[2] );
+            expect( result[0][1] ).toBe( b[0] );
+            expect( result[1][1] ).toBe( b[1] );
+            expect( result[2][1] ).toBe( b[2] );
 
             expect( result.length ).toBe( 3 );
         });
@@ -307,11 +307,11 @@ describe( ".join()", function()
             var a = [ 1, 2, 3, 4, 5 ];
             var b = [ 1, 3, 5 ];
             expect( linq.from( a ).join( "left", b ).toArray() ).toEqual([
-                { a: 1, b: 1 },
-                { a: 2, b: null },
-                { a: 3, b: 3 },
-                { a: 4, b: null },
-                { a: 5, b: 5 }
+                [ 1, 1 ],
+                [ 2, null ],
+                [ 3, 3 ],
+                [ 4, null ],
+                [ 5, 5 ]
             ]);
         });
 
@@ -321,17 +321,17 @@ describe( ".join()", function()
             var b = [{ foo: 1 }, { foo: 3 }, { foo: 5 }];
             var result = linq.from( a ).join( "left", b, "(a, b) => a.foo === b.foo" ).toArray();
 
-            expect( result[0].a ).toBe( a[0] );
-            expect( result[1].a ).toBe( a[1] );
-            expect( result[2].a ).toBe( a[2] );
-            expect( result[3].a ).toBe( a[3] );
-            expect( result[4].a ).toBe( a[4] );
+            expect( result[0][0] ).toBe( a[0] );
+            expect( result[1][0] ).toBe( a[1] );
+            expect( result[2][0] ).toBe( a[2] );
+            expect( result[3][0] ).toBe( a[3] );
+            expect( result[4][0] ).toBe( a[4] );
 
-            expect( result[0].b ).toBe( b[0] );
-            expect( result[1].b ).toBe( null );
-            expect( result[2].b ).toBe( b[1] );
-            expect( result[3].b ).toBe( null );
-            expect( result[4].b ).toBe( b[2] );
+            expect( result[0][1] ).toBe( b[0] );
+            expect( result[1][1] ).toBe( null );
+            expect( result[2][1] ).toBe( b[1] );
+            expect( result[3][1] ).toBe( null );
+            expect( result[4][1] ).toBe( b[2] );
 
             expect( result.length ).toBe( 5 );
         });
@@ -344,11 +344,11 @@ describe( ".join()", function()
             var a = [ 1, 3, 5 ];
             var b = [ 1, 2, 3, 4, 5 ];
             expect( linq.from( a ).join( "right", b ).toArray() ).toEqual([
-                { a: 1, b: 1 },
-                { a: null, b: 2 },
-                { a: 3, b: 3 },
-                { a: null, b: 4 },
-                { a: 5, b: 5 }
+                [ 1, 1 ],
+                [ null, 2 ],
+                [ 3, 3 ],
+                [ null, 4 ],
+                [ 5, 5 ]
             ]);
         });
 
@@ -358,17 +358,17 @@ describe( ".join()", function()
             var b = [{ foo: 1 }, { foo: 2 }, { foo: 3 }, { foo: 4 }, { foo: 5 }];
             var result = linq.from( a ).join( "right", b, "(a, b) => a.foo === b.foo" ).toArray();
 
-            expect( result[0].a ).toBe( a[0] );
-            expect( result[1].a ).toBe( null );
-            expect( result[2].a ).toBe( a[1] );
-            expect( result[3].a ).toBe( null );
-            expect( result[4].a ).toBe( a[2] );
+            expect( result[0][0] ).toBe( a[0] );
+            expect( result[1][0] ).toBe( null );
+            expect( result[2][0] ).toBe( a[1] );
+            expect( result[3][0] ).toBe( null );
+            expect( result[4][0] ).toBe( a[2] );
 
-            expect( result[0].b ).toBe( b[0] );
-            expect( result[1].b ).toBe( b[1] );
-            expect( result[2].b ).toBe( b[2] );
-            expect( result[3].b ).toBe( b[3] );
-            expect( result[4].b ).toBe( b[4] );
+            expect( result[0][1] ).toBe( b[0] );
+            expect( result[1][1] ).toBe( b[1] );
+            expect( result[2][1] ).toBe( b[2] );
+            expect( result[3][1] ).toBe( b[3] );
+            expect( result[4][1] ).toBe( b[4] );
 
             expect( result.length ).toBe( 5 );
         });

@@ -609,12 +609,12 @@ linq.extend(
                         {
                             if ( type === "left" )
                             {
-                                current = { a: left[ index ], b: null };
+                                current = [ left[ index ], null ];
                                 break;
                             }
                             else if ( type === "right" )
                             {
-                                current = { a: null, b: right[ index ] };
+                                current = [ null, right[ index ] ];
                                 break;
                             }
                         }
@@ -624,8 +624,8 @@ linq.extend(
                             matches = linq.from( matches ).select( function( item ) {
                                 return (
                                     secondary === left ?
-                                    { a: item, b: right[ index ] } :
-                                    { a: left[ index ], b: item }
+                                    [ item, right[ index ] ] :
+                                    [ left[ index ], item ]
                                 );
                             }).toArray();
                             current = matches[ 0 ];
@@ -711,7 +711,7 @@ linq.extend(
      * @param {lambda} [valueSelector]
      * @returns {object}
      */
-    toObject: function( keySelector, valueSelector )
+    toHash: function( keySelector, valueSelector )
     {
         var self = this,
             ret = {},

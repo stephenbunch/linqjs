@@ -68,7 +68,7 @@ linq.extend(
      * @param {lambda} [valueSelector]
      * @returns {object}
      */
-    toObject: function( keySelector, valueSelector )
+    toHash: function( keySelector, valueSelector )
     {
         var self = this,
             ret = {},
