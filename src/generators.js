@@ -392,6 +392,10 @@ linq.extend(
                                 current = [ null, right[ index ] ];
                                 break;
                             }
+                            else
+                            {
+                                index++;
+                            }
                         }
                         else
                         {

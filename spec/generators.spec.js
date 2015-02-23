@@ -298,6 +298,10 @@ describe( ".join()", function()
 
             expect( result.length ).toBe( 3 );
         });
+
+        it( "should return empty array if no matches are found", function() {
+            expect( linq.from([ 1, 2, 3 ]).join([ 4, 5, 6 ]).toArray() ).toEqual([]);
+        });
     });
 
     describe( "left outer join", function()
