@@ -1,5 +1,5 @@
 /*!
- * linqjs v0.1.0
+ * linqjs v1.0.3
  * (c) 2013 Stephen Bunch https://github.com/stephenbunch/linqjs
  * License: MIT
  */
@@ -642,6 +642,10 @@ linq.extend(
                 return current !== null;
             };
         });
+    },
+
+    pipe: function( transform ) {
+        return transform( this );
     }
 });
 

@@ -71,7 +71,7 @@ describe( ".groupBy()", function()
     {
         var items = [{
             fruit: "lime",
-            color: "green"            
+            color: "green"
         }, {
             fruit: "apple",
             color: "red"
@@ -376,5 +376,17 @@ describe( ".join()", function()
 
             expect( result.length ).toBe( 5 );
         });
+    });
+});
+
+describe( ".pipe()", function()
+{
+    it( "should call the transform function on itself and return the result", function()
+    {
+        function filterEven( query ) {
+            return query.where( 'x => x % 2 === 0' );
+        }
+        var result = linq.from( [ 1, 2, 3, 4, 5, 6 ] ).pipe( filterEven ).toArray();
+        expect( result ).toEqual([ 2, 4, 6 ]);
     });
 });

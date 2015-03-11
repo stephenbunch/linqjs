@@ -417,5 +417,9 @@ linq.extend(
                 return current !== null;
             };
         });
+    },
+
+    pipe: function( transform ) {
+        return transform( this );
     }
 });
